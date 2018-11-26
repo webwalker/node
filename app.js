@@ -7,6 +7,9 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
+var serveIndex = require('serve-index')
+var serveStatic = require('serve-static');
+
 var app = express();
 
 // view engine setup
@@ -21,6 +24,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+//目录列表及静态文件下载
+app.get("/", function(req, res){
+    res.redirect(302, "/qtt"); //test direct;
+});
+app.use('/qtt', serveIndex('/Users/xujian/Self/node/qtt', {'icons': true})) //This is Mac OS fs path;
+var serve = serveStatic('/Users/xujian/Self/node/qtt')
+app.get('/qtt/*', function(req, res){
+    req.url = req.url.substring(4); //跳过url中的/f前缀，把剩余的部分映射为相对于/home/chenzx的文件路径
+    console.info("["+req.request_id+"] GET static "+req.url);
+    serve(req, res)
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -18,7 +18,12 @@ https://blog.csdn.net/twodogya/article/details/80183565
 
 5、添加文件服务管理
 
+```
+npm install md5-node --save 
 
+var serveIndex = require('serve-index')
+var serveStatic = require('serve-static');
+```
 
 6、启动
 
@@ -26,3 +31,9 @@ nodemon app.js
 
 DEBUG=node:* npm start
 
+
+附：
+
+随时启用的文件服务器：https://github.com/JacksonTian/anywhere
+
+server-index: https://github.com/expressjs/serve-index
